@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>レシート</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 2em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .receipt {
+      background-color: white;
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.5em;
+    }
+    .line {
+      margin: 0.5em 0;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="receipt">
+    <h1>ご利用レシート</h1>
+    <div class="line"><strong>店舗名:</strong> <span id="store"></span></div>
+    <div class="line"><strong>金額:</strong> ¥<span id="amount"></span></div>
+    <div class="line"><strong>日付:</strong> <span id="date"></span></div>
+  </div>
+
+  <script>
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    document.getElementById('store').textContent = getQueryParam('store') || '不明';
+    document.getElementById('amount').textContent = getQueryParam('amount') || '0';
+    document.getElementById('date').textContent = new Date(getQueryParam('date')).toLocaleString() || '不明';
+  </script>
+</body>
+</html>
