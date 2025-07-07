@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -31,14 +30,26 @@
       margin: 0.5em 0;
       font-size: 1.1em;
     }
+    .paypay-logo {
+      margin-top: 1em;
+      text-align: center;
+    }
+    .paypay-logo img {
+      max-width: 180px;
+      height: auto;
+    }
   </style>
 </head>
 <body>
   <div class="receipt">
     <h1>ご利用レシート</h1>
-    <div class="line"><strong>店舗名:</strong> <span id="store"></span></div>
+    <div class="line"><strong>商品名:</strong> <span id="product"></span></div>
     <div class="line"><strong>金額:</strong> ¥<span id="amount"></span></div>
     <div class="line"><strong>日付:</strong> <span id="date"></span></div>
+
+    <div class="paypay-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/PayPay_Logo_202208.svg/512px-PayPay_Logo_202208.svg.png" alt="PayPayロゴ" />
+    </div>
   </div>
 
   <script>
@@ -47,9 +58,12 @@
       return urlParams.get(param);
     }
 
-    document.getElementById('store').textContent = getQueryParam('store') || '不明';
+    document.getElementById('product').textContent = getQueryParam('store') || '不明';
     document.getElementById('amount').textContent = getQueryParam('amount') || '0';
-    document.getElementById('date').textContent = new Date(getQueryParam('date')).toLocaleString() || '不明';
+    const dateParam = getQueryParam('date');
+    document.getElementById('date').textContent = dateParam
+      ? new Date(dateParam).toLocaleString()
+      : '不明';
   </script>
 </body>
 </html>
