@@ -21,6 +21,7 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       width: 100%;
       max-width: 400px;
+      position: relative;
     }
     h1 {
       text-align: center;
@@ -33,10 +34,12 @@
     .paypay-logo {
       margin-top: 1em;
       text-align: center;
+      cursor: pointer;
     }
     .paypay-logo img {
       max-width: 180px;
       height: auto;
+      user-select: none;
     }
   </style>
 </head>
@@ -47,7 +50,7 @@
     <div class="line"><strong>金額:</strong> ¥<span id="amount"></span></div>
     <div class="line"><strong>日付:</strong> <span id="date"></span></div>
 
-    <div class="paypay-logo">
+    <div class="paypay-logo" id="paypayLink" title="PayPayアプリで支払う">
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/PayPay_Logo_202208.svg/512px-PayPay_Logo_202208.svg.png" alt="PayPayロゴ" />
     </div>
   </div>
@@ -64,6 +67,12 @@
     document.getElementById('date').textContent = dateParam
       ? new Date(dateParam).toLocaleString()
       : '不明';
+
+    // PayPayロゴクリックでアプリ起動
+    document.getElementById('paypayLink').addEventListener('click', function(e) {
+      const paypayURL = "paypay://";
+      window.location.href = paypayURL;
+    });
   </script>
 </body>
 </html>
