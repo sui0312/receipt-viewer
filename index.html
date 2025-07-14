@@ -16,6 +16,7 @@
       min-height: 100vh;
       position: relative;
     }
+
     .receipt {
       background-color: white;
       padding: 2em;
@@ -26,14 +27,17 @@
       box-sizing: border-box;
       margin-bottom: 100px;
     }
+
     h1 {
       text-align: center;
       font-size: 1.5em;
     }
+
     .line {
       margin: 0.5em 0;
       font-size: 1.1em;
     }
+
     .paypay-logo-fixed {
       position: fixed;
       bottom: 20px;
@@ -47,6 +51,7 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
       user-select: none;
     }
+
     .paypay-logo-fixed img {
       width: 100%;
       height: auto;
@@ -57,14 +62,14 @@
 <body>
   <div class="receipt">
     <h1>ご利用レシート</h1>
-    <div class="line"><strong>商品名:</strong> <span id="product"></span></div>
-    <div class="line"><strong>金額:</strong> ¥<span id="amount"></span></div>
-    <div class="line"><strong>日付:</strong> <span id="date"></span></div>
+    <div class="line"><strong>商品名:</strong> <span id="product">-</span></div>
+    <div class="line"><strong>金額:</strong> ¥<span id="amount">-</span></div>
+    <div class="line"><strong>日付:</strong> <span id="date">-</span></div>
   </div>
 
-  <!-- 画像ファイル名はローカルと一致させる必要があります -->
-  <a href="paypay://" class="paypay-logo-fixed" title="PayPayアプリで支払う">
-    <img src="paypay_logo.png" alt="PayPayロゴが見つかりません" />
+  <!-- ローカルのAssets内にあるPayPayLogo.pngが必要 -->
+  <a id="paypayLink" class="paypay-logo-fixed" title="PayPayで支払う">
+    <img src="PayPayLogo.png" alt="PayPayロゴ（画像が見つかりません）" />
   </a>
 
   <script>
@@ -73,12 +78,18 @@
       return urlParams.get(param);
     }
 
-    document.getElementById('product').textContent = getQueryParam('store') || '不明';
-    document.getElementById('amount').textContent = getQueryParam('amount') || '0';
+    const product = getQueryParam('store') || '不明';
+    const amount = getQueryParam('amount') || '0';
     const dateParam = getQueryParam('date');
-    document.getElementById('date').textContent = dateParam
-      ? new Date(dateParam).toLocaleString()
-      : '不明';
+    const date = dateParam ? new Date(dateParam).toLocaleString() : '不明';
+
+    document.getElementById('product').textContent = product;
+    document.getElementById('amount').textContent = amount;
+    document.getElementById('date').textContent = date;
+
+    // PayPayリンク生成（仮）
+    const paypayURL = `paypay://payment?amount=${encodeURIComponent(amount)}&store=${encodeURIComponent(product)}`;
+    document.getElementById('paypayLink').href = paypayURL;
   </script>
 </body>
 </html>
